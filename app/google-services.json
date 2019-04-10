@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "633638775064",
+    "firebase_url": "https://kursach2-5ec81.firebaseio.com",
+    "project_id": "kursach2-5ec81",
+    "storage_bucket": "kursach2-5ec81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633638775064:android:b145e93e3cfe636c",
+        "android_client_info": {
+          "package_name": "com.example.zevs.mykursach2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633638775064-9qup1jnt5gu79g3ed5a88lvlbmphn9pm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zevs.mykursach2",
+            "certificate_hash": "e9a0ce06e247f476ebf6a5b2f18564827d6881fe"
+          }
+        },
+        {
+          "client_id": "633638775064-sujvrvfocd49b6mb0pnqttl9nlo7slug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM_nVU0zpSs23v-BMp4aXaqIvjpFKlCmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633638775064-sujvrvfocd49b6mb0pnqttl9nlo7slug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
