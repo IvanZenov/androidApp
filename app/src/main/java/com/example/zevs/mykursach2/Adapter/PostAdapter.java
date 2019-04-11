@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,6 +38,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     private FirebaseUser firebaseUser;
     private DatabaseReference mDatabasePost;
+
 
     public PostAdapter(Context mContext, List<Post> mPost) {
         this.mContext = mContext;
@@ -53,13 +56,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Post post = mPost.get(i);
-
-
         /*
         RequestOptions placeholderOption = new RequestOptions();
         placeholderOption.placeholder(R.drawable.profile_placeholder);
         */
         Glide.with(mContext).load(post.getPostimage()).into(viewHolder.postImage);
+        viewHolder.blog_visitors.setText("Количество участников: " + post.getAmountvisitors());
 
         if (post.getDescription().equals(""))
         {
@@ -83,7 +85,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
 
         public ImageView imageProfile,postImage;
-        public TextView username,description;
+        public TextView username,description,blog_visitors;
+
+
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -93,6 +97,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             postImage = itemView.findViewById(R.id.blog_image);
             username = itemView.findViewById(R.id.blog_user_name);
             description = itemView.findViewById(R.id.blog_desc);
+            blog_visitors = itemView.findViewById(R.id.blog_visitor_count);
+
+
+
         }
 
     }

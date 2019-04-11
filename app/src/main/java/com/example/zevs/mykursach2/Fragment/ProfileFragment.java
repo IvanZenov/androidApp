@@ -1,6 +1,7 @@
 package com.example.zevs.mykursach2.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.zevs.mykursach2.EditProfileActivity;
 import com.example.zevs.mykursach2.Model.Post;
 import com.example.zevs.mykursach2.Model.User;
 import com.example.zevs.mykursach2.R;
@@ -33,6 +35,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView imageProfile,options;
     TextView name,posts;
+    Button editProfile;
 
 
     FirebaseUser firebaseUser;
@@ -53,8 +56,18 @@ public class ProfileFragment extends Fragment {
         options = view.findViewById(R.id.options);
         name = view.findViewById(R.id.username);
         posts = view.findViewById(R.id.postsId);
+        editProfile = view.findViewById(R.id.editProfile);
         userInfo();
         getCurrentPosts();
+
+
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EditProfileActivity.class));
+            }
+        });
 
         return view;
     }
@@ -77,7 +90,7 @@ public class ProfileFragment extends Fragment {
                 */
                 User user = dataSnapshot.getValue(User.class);
                 Glide.with(getContext()).load(user.getImageUrl()).into(imageProfile);
-                name.setText(user.getUsername());
+                name.setText(user.getUsername() + "," + user.getAge());
 
             }
 

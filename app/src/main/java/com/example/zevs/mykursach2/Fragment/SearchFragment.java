@@ -85,6 +85,7 @@ public class SearchFragment extends Fragment {
                     Post post = snapshot.getValue(Post.class);
                     postsList.add(post);
                 }
+                postAdapter.notifyDataSetChanged();
             }
 
             @Override

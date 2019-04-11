@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -15,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,11 +28,14 @@ import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+
+import java.util.Date;
 import java.util.HashMap;
 
 public class PostActivity extends AppCompatActivity {
@@ -40,8 +47,10 @@ public class PostActivity extends AppCompatActivity {
 
 
     ImageView close, image_added;
-    TextView post;
-    EditText description;
+    TextView post,tvMin,tvMax;
+    EditText description,amountVisit;
+    CrystalRangeSeekbar rangeSeekbar;
+
 
 
     @Override
@@ -49,10 +58,37 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+
+        //Initialization of variables
         close = findViewById(R.id.close);
         image_added = findViewById(R.id.image_added);
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
+        rangeSeekbar = findViewById(R.id.rangeSeekbar1);
+        tvMin = findViewById(R.id.textMin1);
+        tvMax = findViewById(R.id.textMax1);
+        amountVisit = findViewById(R.id.amountVisitors);
+
+
+
+        //Initialization of RangeSeekBar
+        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                tvMin.setText(String.valueOf(minValue));
+                tvMax.setText(String.valueOf(maxValue));
+            }
+        });
+
+        rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                Log.d("CRS=>",String.valueOf(minValue)+ ":" + String.valueOf(maxValue));
+            }
+        });
+
+
+
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
 
@@ -106,12 +142,7 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-
     private void uploadImage(){
-
-
-
-
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Публикуем");
         progressDialog.show();
@@ -137,6 +168,7 @@ public class PostActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         assert downloadUri != null;
                         myUrl = downloadUri.toString().trim();
+                        //String myVisitors = amountVisit.toString().trim();
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
 
@@ -147,6 +179,10 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("postimage",myUrl);
                         hashMap.put("description",description.getText().toString());
                         hashMap.put("publisher",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        hashMap.put("amountvisitors",amountVisit.getText().toString());
+                        hashMap.put("agefrom",tvMin.getText().toString());
+                        hashMap.put("ageto",tvMax.getText().toString());
+
                         //Добавил
                         assert postId != null;
                         reference.child(postId).setValue(hashMap);
