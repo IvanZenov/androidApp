@@ -32,6 +32,14 @@
                     android:layout_marginEnd="10dp"
                     android:id="@+id/addPost"
                     android:layout_alignParentEnd="true" />
+
+                <ImageView
+                    android:id="@+id/postFilter"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="10dp"
+                    app:srcCompat="@drawable/filter" />
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>

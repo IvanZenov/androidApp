@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,8 +39,10 @@ import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -49,7 +55,9 @@ public class PostActivity extends AppCompatActivity {
     ImageView close, image_added;
     TextView post,tvMin,tvMax;
     EditText description,amountVisit;
-    CrystalRangeSeekbar rangeSeekbar;
+    Spinner dropdown;
+    String itemvalue;
+    // CrystalRangeSeekbar rangeSeekbar;
 
 
 
@@ -64,14 +72,37 @@ public class PostActivity extends AppCompatActivity {
         image_added = findViewById(R.id.image_added);
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
-        rangeSeekbar = findViewById(R.id.rangeSeekbar1);
-        tvMin = findViewById(R.id.textMin1);
-        tvMax = findViewById(R.id.textMax1);
+
+        //rangeSeekbar = findViewById(R.id.rangeSeekbar1);
+        //tvMin = findViewById(R.id.textMin1);
+        //tvMax = findViewById(R.id.textMax1);
         amountVisit = findViewById(R.id.amountVisitors);
+        dropdown = findViewById(R.id.spinner);
+        List <String> items = new ArrayList<>();
+        items.add("Sport");
+        items.add("Party");
+        items.add("Date");
+        items.add("Own");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,items);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        dropdown.setAdapter(arrayAdapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemvalue = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                itemvalue = "Own";
+
+            }
+        });
 
 
 
         //Initialization of RangeSeekBar
+        /*
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
@@ -87,7 +118,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-
+*/
 
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
@@ -180,8 +211,9 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("description",description.getText().toString());
                         hashMap.put("publisher",FirebaseAuth.getInstance().getCurrentUser().getUid());
                         hashMap.put("amountvisitors",amountVisit.getText().toString());
-                        hashMap.put("agefrom",tvMin.getText().toString());
-                        hashMap.put("ageto",tvMax.getText().toString());
+                        hashMap.put("type",itemvalue);
+                    //    hashMap.put("agefrom",tvMin.getText().toString());
+                      //  hashMap.put("ageto",tvMax.getText().toString());
 
                         //Добавил
                         assert postId != null;
@@ -193,7 +225,7 @@ public class PostActivity extends AppCompatActivity {
                         finish();
                     }
                     else {
-                        Toast.makeText(PostActivity.this,"Ошибочка)",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostActivity.this,"Error)",Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }
                 }
@@ -204,7 +236,7 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
         }else {
-            Toast.makeText(this,"Вы не выбрали фото",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Photo is not chosen",Toast.LENGTH_SHORT).show();
         }
     }
 

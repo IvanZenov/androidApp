@@ -48,10 +48,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:text="SAVE"
+
                     android:id="@+id/save"
                     android:textSize="16sp"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#5fa2d1"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
@@ -81,28 +82,28 @@
             android:text="Change Photo"
             android:layout_gravity="center"
             android:id="@+id/tv_change"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#5fa2d1"
             android:textSize="16sp"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="Имя "
+            android:hint="Name "
             android:id="@+id/username"
             app:met_floatingLabel="normal"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Возраст"
+            android:hint="Age"
             android:id="@+id/age"
             app:met_floatingLabel="normal"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Пол"
+            android:hint="Sex"
             android:id="@+id/bio"
             app:met_floatingLabel="normal"/>
 

@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
-                pd.setMessage("Подождите...");
+                pd.setMessage("Wait...");
                 pd.show();
 
                 String str_email = email.getText().toString();
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_email))
                 {
-                    Toast.makeText(LoginActivity.this,"Вы ввели не все!!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"U are writing is not all!!!",Toast.LENGTH_SHORT).show();
                 }
                 else
                     {
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                 else
                                     {
                                         pd.dismiss();
-                                        Toast.makeText(LoginActivity.this,"Произошла ошибка регистрации",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this,"Something gone is wrong",Toast.LENGTH_SHORT).show();
                                     }
                             }
                         });

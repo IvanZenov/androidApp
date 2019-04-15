@@ -1,20 +1,33 @@
 <resources>
-    <string name="app_name">MyKursach2</string>
-    <string name="inputEmail">Введите логин</string>
-    <string name="inputPassword">Введите пароль</string>
-    <string name="signIn">Войти</string>
-    <string name="registration">Зарегострироваться</string>
-    <string name="registratePassword">Введите пароль</string>
-    <string name="registrateEmail">Введите пароль</string>
-    <string name="regName">Введите имя</string>
+    <string name="app_name">Loopie</string>
+    <string name="inputEmail">Login</string>
+    <string name="inputPassword">Password</string>
+    <string name="signIn">Sign In</string>
+    <string name="registration">Log In</string>
+    <string name="registratePassword">Password</string>
+    <string name="registrateEmail">Email</string>
+    <string name="regName">Name</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="chat">chat</string>
+    <string name="chat">Chat</string>
     <string name="events">Events</string>
     <string name="profile">Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_out">Sign Out</string>
+
+    <string-array name="filter_item">
+        <item>Sport</item>
+        <item>Date</item>
+        <item>Party</item>
+        <item>Cinema</item>
+        <item>Sex</item>
+
+    </string-array>
+
+
+
 </resources>

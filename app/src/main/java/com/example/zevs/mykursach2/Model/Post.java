@@ -11,6 +11,16 @@ public class Post {
     private String agefrom;
     private String ageto;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
     public String getDatepost() {
         return datepost;
     }
@@ -26,7 +36,7 @@ public class Post {
 
 
 
-    public Post(String postid, String postimage, String description, String publisher,String amountvisitors,String agefrom, String ageto,String datepost) {
+    public Post(String postid, String postimage, String description, String publisher,String amountvisitors,String agefrom, String ageto,String datepost,String type) {
         this.postid = postid;
         this.postimage = postimage;
         this.description = description;
@@ -35,6 +45,7 @@ public class Post {
         this.agefrom = agefrom;
         this.ageto = ageto;
         this.datepost = datepost;
+        this.type = type;
     }
 
 

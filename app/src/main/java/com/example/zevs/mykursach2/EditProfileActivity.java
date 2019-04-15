@@ -133,7 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         reference.updateChildren(map);
 
-        Toast.makeText(EditProfileActivity.this, "Все клево обновили!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditProfileActivity.this, "Updated)", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -151,7 +151,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void uploadImage(){
         final ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Обновляем");
+        pd.setMessage("Updating");
         pd.show();
         if (mImageUri != null){
             final StorageReference fileReference = storageRef.child(System.currentTimeMillis()
@@ -181,7 +181,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         pd.dismiss();
 
                     } else {
-                        Toast.makeText(EditProfileActivity.this, "Ошибочка", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -192,7 +192,7 @@ public class EditProfileActivity extends AppCompatActivity {
             });
 
         } else {
-            Toast.makeText(EditProfileActivity.this, "Фотография не выбрана", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfileActivity.this, "Photo is not chosen", Toast.LENGTH_SHORT).show();
         }
     }
 

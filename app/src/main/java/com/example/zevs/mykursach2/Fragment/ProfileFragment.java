@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.zevs.mykursach2.EditProfileActivity;
+import com.example.zevs.mykursach2.LoginActivity;
 import com.example.zevs.mykursach2.Model.Post;
 import com.example.zevs.mykursach2.Model.User;
 import com.example.zevs.mykursach2.R;
@@ -35,7 +36,8 @@ public class ProfileFragment extends Fragment {
 
     ImageView imageProfile,options;
     TextView name,posts;
-    Button editProfile;
+    Button sign_out;
+    ImageView editProfile;
 
 
     FirebaseUser firebaseUser;
@@ -53,13 +55,22 @@ public class ProfileFragment extends Fragment {
         profileId = firebaseUser.getUid();
 
         imageProfile = view.findViewById(R.id.image_profile);
-        options = view.findViewById(R.id.options);
+        //options = view.findViewById(R.id.options);
         name = view.findViewById(R.id.username);
         posts = view.findViewById(R.id.postsId);
         editProfile = view.findViewById(R.id.editProfile);
+        sign_out = view.findViewById(R.id.signOut);
         userInfo();
         getCurrentPosts();
 
+        sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                getActivity().finish();
+                startActivity(new Intent(getContext(),LoginActivity.class));
+            }
+        });
 
 
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +95,6 @@ public class ProfileFragment extends Fragment {
                 placeholderOption.placeholder(R.drawable.profile_placeholder);
                 //String xx = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
                 User user = dataSnapshot.getValue(User.class);
-
                 Glide.with(getContext()).applyDefaultRequestOptions(placeholderOption).load(user.getImageurl()).into(imageProfile);
                 name.setText(user.getUsername() +"," + user.getAge());
                 */
@@ -112,7 +122,7 @@ public class ProfileFragment extends Fragment {
                         i++;
                     }
                 }
-                posts.setText("Кол-во постов " + i);
+                posts.setText(""+i);
             }
 
             @Override
@@ -120,6 +130,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
     }
 
 }

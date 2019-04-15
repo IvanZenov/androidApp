@@ -1,6 +1,8 @@
 package com.example.zevs.mykursach2.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +42,10 @@ public class SearchFragment extends Fragment {
 
 
     ImageView addPost;
+    ImageView filterPost;
+    String [] listItems;
+    boolean [] checkedItems;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,22 +65,60 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(postAdapter);
 
 
+        listItems = getResources().getStringArray(R.array.filter_item);
+        checkedItems = new boolean[listItems.length];
 
+        filterPost = view.findViewById(R.id.postFilter);
+        filterPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+                mBuilder.setTitle("Criteria of searching");
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if(isChecked){
+                            mUserItems.add(position);
+                        }else{
+                            mUserItems.remove((Integer.valueOf(position)));
+                        }
+                    }
+                });
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String item = "";
+                        readPosts(listItems,mUserItems);
+
+                    }
+                });
+                mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
         addPost = view.findViewById(R.id.addPost);
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(),PostActivity.class));
             }
+
         });
 
-        readPosts();
+        if (mUserItems.size()==0){
+            readPosts(listItems,mUserItems);
+        }
         return view;
-
-
     }
 
-    private void readPosts(){
+    private void readPosts(final String[] filter, final ArrayList<Integer> arrayList){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -83,7 +127,18 @@ public class SearchFragment extends Fragment {
                 postsList.clear();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     Post post = snapshot.getValue(Post.class);
-                    postsList.add(post);
+                    if (arrayList.size()!=0) {
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            if (post.getType().equals(filter[arrayList.get(i)])) {
+                                postsList.add(post);
+                            }
+
+                        }
+                    }
+                    else {
+                        postsList.add(post);
+                    }
+
                 }
                 postAdapter.notifyDataSetChanged();
             }

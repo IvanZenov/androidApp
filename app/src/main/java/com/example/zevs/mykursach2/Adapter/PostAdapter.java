@@ -28,6 +28,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
@@ -56,12 +58,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Post post = mPost.get(i);
-        /*
-        RequestOptions placeholderOption = new RequestOptions();
-        placeholderOption.placeholder(R.drawable.profile_placeholder);
-        */
         Glide.with(mContext).load(post.getPostimage()).into(viewHolder.postImage);
-        viewHolder.blog_visitors.setText("Количество участников: " + post.getAmountvisitors());
+
+        viewHolder.filter.setText(post.getType());
+
+        if(post.getAmountvisitors().equals(""))
+        {
+            viewHolder.blog_visitors.setVisibility(View.GONE);
+        }
+        else{
+            viewHolder.blog_visitors.setVisibility(View.VISIBLE);
+            viewHolder.blog_visitors.setText("Amount of visitors: " + post.getAmountvisitors());
+        }
+
+
 
         if (post.getDescription().equals(""))
         {
@@ -85,7 +95,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
 
         public ImageView imageProfile,postImage;
-        public TextView username,description,blog_visitors;
+        public TextView username,description,blog_visitors,blog_time,filter;
+
+
 
 
 
@@ -98,9 +110,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             username = itemView.findViewById(R.id.blog_user_name);
             description = itemView.findViewById(R.id.blog_desc);
             blog_visitors = itemView.findViewById(R.id.blog_visitor_count);
-
-
-
+            blog_time = itemView.findViewById(R.id.blog_date);
+            filter = itemView.findViewById(R.id.criteria);
         }
 
     }
@@ -125,5 +136,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             }
         });
     }
+
 
 }

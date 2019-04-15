@@ -22,11 +22,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 public class RegistrationActivity extends AppCompatActivity {
     EditText username,email,password,age;
     Button registrate;
     TextView txt_login;
     ProgressDialog pd;
+    CircularProgressButton btn;
 
 
 
@@ -45,8 +48,6 @@ public class RegistrationActivity extends AppCompatActivity {
         registrate = findViewById(R.id.registrate);
         txt_login = findViewById(R.id.yetRegistrate);
         age = findViewById(R.id.regisrationAge);
-
-
         auth = FirebaseAuth.getInstance();
         txt_login.setOnClickListener(new View.OnClickListener() {
             @Override
