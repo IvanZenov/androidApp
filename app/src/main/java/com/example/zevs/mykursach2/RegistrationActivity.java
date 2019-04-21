@@ -60,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pd = new ProgressDialog(RegistrationActivity.this);
-                pd.setMessage("Подожди пожалуйста...");
+                pd.setMessage(getString(R.string.waiting));
                 pd.show();
 
                 String str_username = username.getText().toString();
@@ -70,11 +70,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(str_username)||TextUtils.isEmpty(str_email)
                         ||TextUtils.isEmpty(str_password)||TextUtils.isEmpty(str_age)){
-                    Toast.makeText(RegistrationActivity.this,"Вы ввели не все данные",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this,getString(R.string.notPassOrEmail),Toast.LENGTH_SHORT).show();
                 }
                 else if(str_password.length()<6)
                 {
-                    Toast.makeText(RegistrationActivity.this,"Пароль должен быть больше 6 символов",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this,getString(R.string.passwordCriteria),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     registrate(str_username,str_email,str_password,str_age);
@@ -117,7 +117,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
                 else {
                     pd.dismiss();
-                    Toast.makeText(RegistrationActivity.this,"Вы не можете зарегистрироваться под таким паролем или логином",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this,getString(R.string.passwordEmailWarning),Toast.LENGTH_SHORT).show();
                 }
             }
         });

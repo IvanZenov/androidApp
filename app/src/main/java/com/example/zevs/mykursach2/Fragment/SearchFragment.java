@@ -129,7 +129,7 @@ public class SearchFragment extends Fragment {
                     Post post = snapshot.getValue(Post.class);
                     if (arrayList.size()!=0) {
                         for (int i = 0; i < arrayList.size(); i++) {
-                            if (post.getType().equals(filter[arrayList.get(i)])) {
+                            if (post.getType().equals(filter [arrayList.get(i)] )) {
                                 postsList.add(post);
                             }
 

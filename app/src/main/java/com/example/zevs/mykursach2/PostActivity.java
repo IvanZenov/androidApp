@@ -212,6 +212,7 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("publisher",FirebaseAuth.getInstance().getCurrentUser().getUid());
                         hashMap.put("amountvisitors",amountVisit.getText().toString());
                         hashMap.put("type",itemvalue);
+                        hashMap.put("timestamp", ServerValue.TIMESTAMP);
                     //    hashMap.put("agefrom",tvMin.getText().toString());
                       //  hashMap.put("ageto",tvMax.getText().toString());
 
@@ -225,7 +226,7 @@ public class PostActivity extends AppCompatActivity {
                         finish();
                     }
                     else {
-                        Toast.makeText(PostActivity.this,"Error)",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostActivity.this,getString(R.string.error),Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }
                 }
@@ -236,7 +237,7 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
         }else {
-            Toast.makeText(this,"Photo is not chosen",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.photoBad),Toast.LENGTH_SHORT).show();
         }
     }
 

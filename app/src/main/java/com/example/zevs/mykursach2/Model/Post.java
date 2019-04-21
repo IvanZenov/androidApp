@@ -8,8 +8,18 @@ public class Post {
     private String description;
     private String publisher;
     private String amountvisitors;
-    private String agefrom;
-    private String ageto;
+    private String type;
+    private Long timestamp;
+
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
 
     public String getType() {
         return type;
@@ -19,51 +29,20 @@ public class Post {
         this.type = type;
     }
 
-    private String type;
-
-    public String getDatepost() {
-        return datepost;
-    }
-
-    public void setDatepost(String datepost) {
-        this.datepost = datepost;
-    }
-
-    private String datepost;
 
 
 
 
-
-
-    public Post(String postid, String postimage, String description, String publisher,String amountvisitors,String agefrom, String ageto,String datepost,String type) {
+    public Post(String postid, String postimage, String description, String publisher,String amountvisitors,Long timestamp,String type) {
         this.postid = postid;
         this.postimage = postimage;
         this.description = description;
         this.publisher = publisher;
         this.amountvisitors = amountvisitors;
-        this.agefrom = agefrom;
-        this.ageto = ageto;
-        this.datepost = datepost;
+        this.timestamp = timestamp;
         this.type = type;
     }
 
-
-    public String getAgefrom() {
-        return agefrom;
-    }
-
-    public void setAgefrom(String agefrom) {
-        this.agefrom = agefrom;
-    }
-
-    public String getAgeto() {
-        return ageto;
-    }
-
-    public void setAgeto(String ageto) {
-        this.ageto = ageto;
-    }
 
     public String getAmountvisitors() {
         return amountvisitors;

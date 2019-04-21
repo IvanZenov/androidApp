@@ -18,6 +18,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_out">Sign Out</string>
+    <string name="waiting">Wait please...</string>
+    <string name="passwordCriteria">Password need consist more than 6 symbols</string>
+    <string name="passwordEmailWarning">U can\'t registrated with this password or email</string>
+    <string name="photoBad">Photo is not chosen</string>
+    <string name="error">Error)</string>
+    <string name="ddd">Wait...</string>
+    <string name="someIsWrong">Something gone is wrong</string>
+    <string name="notPassOrEmail">U didn\'t enter password or email</string>
+    <string name="updated">Updated)</string>
 
     <string-array name="filter_item">
         <item>Sport</item>

@@ -51,7 +51,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
+        //Get all id from layout
         close = findViewById(R.id.close);
         image_profile = findViewById(R.id.image_profile);
         save = findViewById(R.id.save);
@@ -60,7 +60,9 @@ public class EditProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         bio = findViewById(R.id.bio);
 
+        //Get current user
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        //Get reference to storage
         storageRef = FirebaseStorage.getInstance().getReference("uploads");
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -68,7 +70,10 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Get all information of current User
                 User user = dataSnapshot.getValue(User.class);
+
+                //Set all information to layout
                 age.setText(user.getAge());
                 username.setText(user.getUsername());
                 bio.setText(user.getBio());
@@ -84,7 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
 
-
+        //Set action to button
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,17 +138,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
         reference.updateChildren(map);
 
-        Toast.makeText(EditProfileActivity.this, "Updated)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditProfileActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
     }
 
 
 
     private String getFileExtension(Uri uri){
-        /*ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        */
+        //Get type of file (jpg,png ...)
         return MimeTypeMap.getFileExtensionFromUrl(uri.toString());
-        //return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
 
@@ -153,6 +155,7 @@ public class EditProfileActivity extends AppCompatActivity {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Updating");
         pd.show();
+        //If user pick image
         if (mImageUri != null){
             final StorageReference fileReference = storageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -181,7 +184,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         pd.dismiss();
 
                     } else {
-                        Toast.makeText(EditProfileActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -192,7 +195,7 @@ public class EditProfileActivity extends AppCompatActivity {
             });
 
         } else {
-            Toast.makeText(EditProfileActivity.this, "Photo is not chosen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfileActivity.this, getString(R.string.photoBad), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -208,7 +211,7 @@ public class EditProfileActivity extends AppCompatActivity {
             uploadImage();
 
         } else {
-            Toast.makeText(this, "Something gone wrong!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.someIsWrong), Toast.LENGTH_SHORT).show();
         }
     }
 

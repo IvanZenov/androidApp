@@ -39,7 +39,7 @@
                     android:layout_height="24dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="10dp"
-                    app:srcCompat="@drawable/filter" />
+                    android:src="@drawable/tune_vertical" />
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>

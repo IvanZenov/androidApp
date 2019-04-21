@@ -29,46 +29,40 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import static android.content.Context.MODE_PRIVATE;
 
 import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
 
-    ImageView imageProfile,options;
-    TextView name,posts;
+    ImageView imageProfile;
+    TextView name, posts, following;
     Button sign_out;
     ImageView editProfile;
-
-
     FirebaseUser firebaseUser;
-    String profileId;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile,container,false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        profileId = firebaseUser.getUid();
-
         imageProfile = view.findViewById(R.id.image_profile);
         //options = view.findViewById(R.id.options);
         name = view.findViewById(R.id.username);
         posts = view.findViewById(R.id.postsId);
+        following = view.findViewById(R.id.following);
         editProfile = view.findViewById(R.id.editProfile);
         sign_out = view.findViewById(R.id.signOut);
-        userInfo();
-        getCurrentPosts();
+
 
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 getActivity().finish();
-                startActivity(new Intent(getContext(),LoginActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
 
@@ -80,15 +74,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        userInfo();
+        getCurrentPosts();
+        getFollowers();
+
         return view;
     }
-    private void userInfo () {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(profileId);
+
+    private void userInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (getContext() == null){
+                if (getContext() == null) {
                     return;
                 }/*
                 RequestOptions placeholderOption = new RequestOptions();
@@ -110,19 +109,20 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-    private void getCurrentPosts(){
+
+    private void getCurrentPosts() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i =0;
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                int i = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Post post = snapshot.getValue(Post.class);
-                    if (post.getPublisher().equals(profileId)){
+                    if (post.getPublisher().equals(firebaseUser.getUid())) {
                         i++;
                     }
                 }
-                posts.setText(""+i);
+                posts.setText("" + i);
             }
 
             @Override
@@ -130,7 +130,20 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
     }
 
+    private void getFollowers() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow").child(firebaseUser.getUid()).child("followers");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                following.setText("" + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
