@@ -48,8 +48,6 @@
 
             android:textSize="23dp"
             android:textStyle="bold"
-            android:text="Suka,18"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
-                    android:text="1205"
+
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -147,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
-                    android:text="360"
+
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

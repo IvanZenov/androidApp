@@ -89,16 +89,12 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (getContext() == null) {
                     return;
-                }/*
+                }
+
                 RequestOptions placeholderOption = new RequestOptions();
                 placeholderOption.placeholder(R.drawable.profile_placeholder);
-                //String xx = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
                 User user = dataSnapshot.getValue(User.class);
-                Glide.with(getContext()).applyDefaultRequestOptions(placeholderOption).load(user.getImageurl()).into(imageProfile);
-                name.setText(user.getUsername() +"," + user.getAge());
-                */
-                User user = dataSnapshot.getValue(User.class);
-                Glide.with(getContext()).load(user.getImageUrl()).into(imageProfile);
+                Glide.with(getContext()).applyDefaultRequestOptions(placeholderOption).load(user.getImageUrl()).into(imageProfile);
                 name.setText(user.getUsername() + "," + user.getAge());
 
             }

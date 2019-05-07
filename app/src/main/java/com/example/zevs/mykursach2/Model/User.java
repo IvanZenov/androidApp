@@ -8,7 +8,9 @@ public class User {
     private String username;
 
 
-    public User(String age, String bio, String id, String imageUrl, String username) {
+    public User(String age, String bio,
+                String id, String imageUrl,
+                String username) {
         this.age = age;
         this.bio = bio;
         this.id = id;

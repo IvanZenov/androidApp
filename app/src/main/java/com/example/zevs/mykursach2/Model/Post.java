@@ -12,28 +12,11 @@ public class Post {
     private Long timestamp;
 
 
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
 
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-
-
-
-
-    public Post(String postid, String postimage, String description, String publisher,String amountvisitors,Long timestamp,String type) {
+    public Post(String postid, String postimage,
+                String description, String publisher,
+                String amountvisitors,Long timestamp,String type) {
         this.postid = postid;
         this.postimage = postimage;
         this.description = description;
@@ -82,6 +65,23 @@ public class Post {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Post() {

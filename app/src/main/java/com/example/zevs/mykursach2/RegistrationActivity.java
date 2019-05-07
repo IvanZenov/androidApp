@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class RegistrationActivity extends AppCompatActivity {
     TextView txt_login;
     ProgressDialog pd;
     CircularProgressButton btn;
+    RadioGroup radioGenderGroup;
+    RadioButton radioGenderButton;
 
 
 
@@ -41,6 +45,10 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        radioGenderGroup = findViewById(R.id.radioGender);
+        radioGenderButton = findViewById(radioGenderGroup.getCheckedRadioButtonId());
+
 
         username = findViewById(R.id.registrationName);
         email = findViewById(R.id.registrationEmail);
@@ -67,6 +75,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 String str_password = password.getText().toString();
                 String str_email = email.getText().toString();
                 String str_age = age.getText().toString();
+                String str_gender = radioGenderButton.getText().toString();
+
 
                 if (TextUtils.isEmpty(str_username)||TextUtils.isEmpty(str_email)
                         ||TextUtils.isEmpty(str_password)||TextUtils.isEmpty(str_age)){
@@ -77,13 +87,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast.makeText(RegistrationActivity.this,getString(R.string.passwordCriteria),Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    registrate(str_username,str_email,str_password,str_age);
+                    registrate(str_username,str_email,str_password,str_age,str_gender);
                 }
 
             }
         });
     }
-    private void registrate (final String username, String email , String password, final String age)
+    private void registrate (final String username, String email ,
+                             String password, final String age, final String gender)
     {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -98,7 +109,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     hashMap.put("id",userId);
                     hashMap.put("username",username);
-                    hashMap.put("bio","");
+                    hashMap.put("bio",gender);
                     hashMap.put("age",age);
                     hashMap.put("imageUrl","https://firebasestorage.googleapis.com/v0/b/kursach2-5ec81.appspot.com/o/placeholder.png?alt=media&token=60832b31-59c5-4871-80b7-cc9a5c1c097b");
 
@@ -122,4 +133,5 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
 }

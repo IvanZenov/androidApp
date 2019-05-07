@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 new ProfileFragment()).commit();
 
 
+
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

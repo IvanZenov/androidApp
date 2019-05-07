@@ -57,6 +57,7 @@ public class PostActivity extends AppCompatActivity {
     EditText description,amountVisit;
     Spinner dropdown;
     String itemvalue;
+    Integer [] images = {0,R.drawable.heart,R.drawable.garland,R.drawable.tools,R.drawable.heart};
     // CrystalRangeSeekbar rangeSeekbar;
 
 
@@ -66,18 +67,17 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-
         //Initialization of variables
         close = findViewById(R.id.close);
         image_added = findViewById(R.id.image_added);
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
-
-        //rangeSeekbar = findViewById(R.id.rangeSeekbar1);
-        //tvMin = findViewById(R.id.textMin1);
-        //tvMax = findViewById(R.id.textMax1);
         amountVisit = findViewById(R.id.amountVisitors);
         dropdown = findViewById(R.id.spinner);
+
+
+
+
         List <String> items = new ArrayList<>();
         items.add("Sport");
         items.add("Party");
@@ -99,26 +99,6 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //Initialization of RangeSeekBar
-        /*
-        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                tvMin.setText(String.valueOf(minValue));
-                tvMax.setText(String.valueOf(maxValue));
-            }
-        });
-
-        rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
-            @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                Log.d("CRS=>",String.valueOf(minValue)+ ":" + String.valueOf(maxValue));
-            }
-        });
-
-*/
 
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
@@ -145,11 +125,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private String getFileExtension(Uri uri){
-        /*ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        */
         return MimeTypeMap.getFileExtensionFromUrl(uri.toString());
-        //return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
 
@@ -167,7 +143,7 @@ public class PostActivity extends AppCompatActivity {
             image_added.setImageURI(imageUri);
 
         }else {
-            Toast.makeText(this, "Что-то пошло не так",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something gone is wrong",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(PostActivity.this,MainActivity.class));
             finish();
         }
@@ -175,7 +151,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void uploadImage(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Публикуем");
+        progressDialog.setMessage("Publishing");
         progressDialog.show();
 
         if (imageUri != null)

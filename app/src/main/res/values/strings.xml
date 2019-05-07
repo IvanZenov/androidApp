@@ -27,16 +27,14 @@
     <string name="someIsWrong">Something gone is wrong</string>
     <string name="notPassOrEmail">U didn\'t enter password or email</string>
     <string name="updated">Updated)</string>
+    <string name="genderFemale">Female</string>
+    <string name="genderMale">Male</string>
 
     <string-array name="filter_item">
         <item>Sport</item>
         <item>Date</item>
         <item>Party</item>
-        <item>Cinema</item>
-        <item>Sex</item>
-
     </string-array>
-
 
 
 </resources>

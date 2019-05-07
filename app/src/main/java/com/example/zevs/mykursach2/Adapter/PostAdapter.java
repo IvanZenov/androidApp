@@ -42,6 +42,9 @@ import java.util.Calendar;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
+import static com.example.zevs.mykursach2.R.*;
+import static com.example.zevs.mykursach2.R.drawable.ic_done_all_black_24dp;
+
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public Context mContext;
@@ -57,20 +60,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.post_item,viewGroup,false);
+        View view = LayoutInflater.from(mContext).inflate(layout.post_item,viewGroup,false);
         return new PostAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+
+
+        RequestOptions placeholderOption = new RequestOptions();
+        placeholderOption.placeholder(drawable.profile_placeholder);
+
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Post post = mPost.get(i);
-        Glide.with(mContext).load(post.getPostimage()).into(viewHolder.postImage);
+        Glide.with(mContext).applyDefaultRequestOptions(placeholderOption).load(post.getPostimage()).into(viewHolder.postImage);
         //SET TIME TO POST TIME
-         viewHolder.filter.setText("Type:" + post.getType());
-         long millisecond = post.getTimestamp();
-         android.text.format.DateFormat df = new android.text.format.DateFormat();
-         viewHolder.blog_time.setText(df.format("dd.MM.yyyy hh:mm", millisecond).toString());
+        viewHolder.filter.setText("Type:" + post.getType());
+        long millisecond = post.getTimestamp();
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        viewHolder.blog_time.setText(df.format("dd.MM.yyyy hh:mm", millisecond).toString());
 
 
         if(post.getAmountvisitors().equals(""))
@@ -134,37 +143,44 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
-
         public ImageView imageProfile,postImage;
         public TextView username,description,blog_visitors,blog_time,filter;
         public CircularProgressButton btn_follow;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageProfile = itemView.findViewById(R.id.blog_user_image);
-            postImage = itemView.findViewById(R.id.blog_image);
-            username = itemView.findViewById(R.id.blog_user_name);
-            description = itemView.findViewById(R.id.blog_desc);
-            blog_visitors = itemView.findViewById(R.id.blog_visitor_count);
-            blog_time = itemView.findViewById(R.id.blog_date);
-            filter = itemView.findViewById(R.id.criteria);
-            btn_follow = itemView.findViewById(R.id.btn_follow);
+            imageProfile = itemView.findViewById(id.blog_user_image);
+            postImage = itemView.findViewById(id.blog_image);
+            username = itemView.findViewById(id.blog_user_name);
+            description = itemView.findViewById(id.blog_desc);
+            blog_visitors = itemView.findViewById(id.blog_visitor_count);
+            blog_time = itemView.findViewById(id.blog_date);
+            filter = itemView.findViewById(id.criteria);
+            btn_follow = itemView.findViewById(id.btn_follow);
         }
 
     }
+
+
+
+
+
+
+
+
+
+
     private void publisherInfo(final ImageView imageProfile, final TextView username, String userId)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-
                 RequestOptions placeholderOption = new RequestOptions();
-                placeholderOption.placeholder(R.drawable.profile_placeholder);
-
-                Glide.with(mContext).load(user.getImageUrl()).into(imageProfile);
+                placeholderOption.placeholder(drawable.profile_placeholder);
+                User user = dataSnapshot.getValue(User.class);
+                Glide.with(mContext).applyDefaultRequestOptions(placeholderOption).load(user.getImageUrl()).into(imageProfile);
                 //Glide.with(mContext).load(user.getImageurl()).into(imageProfile);
                 username.setText(user.getUsername() + "," + user.getAge());
 
@@ -176,6 +192,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     }
 
     private void animateButton (final CircularProgressButton btn){
+
+
         AsyncTask<String,String,String> followPost = new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... strings) {
@@ -192,15 +210,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             protected void onPostExecute(String s) {
                 if (s.equals("follow")){
                     Toast.makeText(btn.getContext(),"Application accepted",Toast.LENGTH_SHORT).show();
-                    btn.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(btn.getResources(),R.drawable.ic_done_white_48dp));
+                    btn.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(btn.getResources(),drawable.ic_done_white_48dp));
                 }
             }
         };
 
         btn.startAnimation();
+
         followPost.execute();
     }
-    
+
     private void isFollowing(final String postId, final CircularProgressButton button){
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -212,6 +231,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(firebaseUser.getUid()).exists()){
                     button.setText("following");
+
+                    button.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(button.getResources(),drawable.ic_done_white_48dp));
+                    //button.setBackground();
+                    //button.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(button.getResources(),R.drawable.ic_done_white_48dp));
+                    //
 
                 } else{
                     button.setText("follow");

@@ -138,7 +138,6 @@ public class SearchFragment extends Fragment {
                     else {
                         postsList.add(post);
                     }
-
                 }
                 postAdapter.notifyDataSetChanged();
             }

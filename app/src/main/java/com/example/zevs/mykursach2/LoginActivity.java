@@ -29,17 +29,18 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
 //If the user has ever logged in, we immediately redirect him to his profile.
+
+
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //get current user from Firebase
         //redirect if user is not null
         if (firebaseUser!=null)
         {
             startActivity( new Intent(LoginActivity.this,MainActivity.class));
             finish();
         }
-
     }
 
 
@@ -53,14 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         btn_signUp = findViewById(R.id.signUp);
         login = findViewById(R.id.signIn);
-
-
         auth = FirebaseAuth.getInstance();
-        //Give action to button
+
+
+
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this,
+                        RegistrationActivity.class));
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -126,4 +128,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }
