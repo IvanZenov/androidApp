@@ -1,6 +1,7 @@
 package com.example.zevs.mykursach2.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -114,15 +115,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             public void onClick(final View view) {
 
 
-                //animateButton(viewHolder.btn_follow);
 
                 if (viewHolder.btn_follow.getText().toString().equals("follow")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(post.getPostid())
                             .child("following").child(firebaseUser.getUid()).setValue(true);
 
-                   FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("followers").child(post.getPostid()).setValue(true);
-
+                    //CHAT MOMENT!!!
+                    FirebaseDatabase.getInstance().getReference().child("Group").child(post.getPostid()).child(firebaseUser.getUid()).setValue(true);
 
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(post.getPostid())
@@ -135,6 +136,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
         });
         publisherInfo(viewHolder.imageProfile,viewHolder.username,post.getPublisher());
+
     }
 
     @Override
@@ -168,9 +170,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
 
 
-
-
-
     private void publisherInfo(final ImageView imageProfile, final TextView username, String userId)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
@@ -191,34 +190,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         });
     }
 
-    private void animateButton (final CircularProgressButton btn){
 
-
-        AsyncTask<String,String,String> followPost = new AsyncTask<String, String, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
-                try {
-                    Thread.sleep(1500);
-                }
-                catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                return "follow";
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                if (s.equals("follow")){
-                    Toast.makeText(btn.getContext(),"Application accepted",Toast.LENGTH_SHORT).show();
-                    btn.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(btn.getResources(),drawable.ic_done_white_48dp));
-                }
-            }
-        };
-
-        btn.startAnimation();
-
-        followPost.execute();
-    }
 
     private void isFollowing(final String postId, final CircularProgressButton button){
 
@@ -233,10 +205,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                     button.setText("following");
 
                     button.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(button.getResources(),drawable.ic_done_white_48dp));
-                    //button.setBackground();
-                    //button.doneLoadingAnimation(Color.parseColor("#333639"),BitmapFactory.decodeResource(button.getResources(),R.drawable.ic_done_white_48dp));
-                    //
-
                 } else{
                     button.setText("follow");
                 }

@@ -28,6 +28,14 @@
             android:textColor="#fff"
             android:padding="8dp"
             android:layout_alignParentRight="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/show_message"
+            android:id="@+id/message_time"
+            android:text="10:00"
+            android:padding="8dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"

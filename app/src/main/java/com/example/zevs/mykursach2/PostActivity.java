@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.zevs.mykursach2.Model.Room;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.tasks.Continuation;
@@ -44,6 +45,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+
+//Here method create group
 public class PostActivity extends AppCompatActivity {
 
     Uri imageUri;
@@ -52,6 +55,7 @@ public class PostActivity extends AppCompatActivity {
     StorageReference storageReference;
 
 
+    DatabaseReference reference1;
     ImageView close, image_added;
     TextView post,tvMin,tvMax;
     EditText description,amountVisit;
@@ -74,6 +78,7 @@ public class PostActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
         amountVisit = findViewById(R.id.amountVisitors);
         dropdown = findViewById(R.id.spinner);
+        reference1= FirebaseDatabase.getInstance().getReference();
 
 
 
@@ -115,6 +120,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 uploadImage();
+                createGroup();
             }
         });
 
@@ -149,6 +155,18 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
+
+    private void createGroup() {
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//        String idRoom ;
+//        Room room = new Room();
+//        room.setId(idRoom);
+//        reference.child(idRoom).setValue(room);
+//
+
+    }
+
+
     private void uploadImage(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Publishing");
@@ -179,7 +197,12 @@ public class PostActivity extends AppCompatActivity {
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
 
+
+
+
                         String postId = reference.push().getKey();
+
+
 
                         HashMap<String,Object> hashMap = new HashMap<>();
                         hashMap.put("postid",postId);
@@ -196,7 +219,16 @@ public class PostActivity extends AppCompatActivity {
                         assert postId != null;
                         reference.child(postId).setValue(hashMap);
 
+
                         progressDialog.dismiss();
+
+                        //HDKJFKJSD KJFKLSDJFKJSDKFJKSDJF DSKJF DSJFK
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Group");
+                        String idRoom = postId;
+                        Room room = new Room();
+                        room.setId(idRoom);
+                        ref.child(idRoom).setValue(room);
+                        //SDJKJFLKDSFJSDLFJKl
 
                         startActivity(new Intent(PostActivity.this,MainActivity.class));
                         finish();
