@@ -5,13 +5,15 @@ public class Chat {
     private String sender;
     private String receiver;
     private String message;
+    private Long timestamp;
     private boolean isseen;
 
-    public Chat(String sender, String receiver, String message, boolean isseen) {
+    public Chat(String sender, String receiver, String message, boolean isseen,Long timestamp) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.isseen = isseen;
+        this.timestamp = timestamp;
     }
 
     public Chat() {
@@ -47,5 +49,13 @@ public class Chat {
 
     public void setIsseen(boolean isseen) {
         this.isseen = isseen;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

@@ -10,13 +10,15 @@ public class Post {
     private String amountvisitors;
     private String type;
     private Long timestamp;
+    private String name;
 
 
 
 
     public Post(String postid, String postimage,
                 String description, String publisher,
-                String amountvisitors,Long timestamp,String type) {
+                String amountvisitors,Long timestamp,
+                String type, String name) {
         this.postid = postid;
         this.postimage = postimage;
         this.description = description;
@@ -24,6 +26,7 @@ public class Post {
         this.amountvisitors = amountvisitors;
         this.timestamp = timestamp;
         this.type = type;
+        this.name = name;
     }
 
 
@@ -82,6 +85,14 @@ public class Post {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Post() {

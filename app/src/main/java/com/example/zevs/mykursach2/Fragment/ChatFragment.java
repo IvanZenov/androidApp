@@ -7,11 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
+import android.widget.EditText;
 
 import com.example.zevs.mykursach2.Adapter.GroupAdapter;
 import com.example.zevs.mykursach2.Adapter.UserAdapter;
@@ -26,11 +29,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class ChatFragment extends Fragment {
 
@@ -47,6 +52,7 @@ public class ChatFragment extends Fragment {
     FirebaseUser firebaseUser;
 
     private GroupAdapter groupAdapter;
+    EditText editText;
 
 
 
@@ -63,6 +69,8 @@ public class ChatFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        editText = view.findViewById(R.id.search_posts);
+
         idList = new ArrayList<>();
         userList = new ArrayList<>();
         listPostId = new ArrayList<>();
@@ -75,10 +83,36 @@ public class ChatFragment extends Fragment {
 
         postList = new ArrayList<>();
 
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()){
+                    search(s.toString());
+                }
+                else {
+                    search("");
+                }
+
+            }
+        });
+
         getFollowers();
-        //showGroup();
-        //readUsers();
         return view;
+    }
+
+
+    private void search (String s){
+
     }
 
 
@@ -92,7 +126,7 @@ public class ChatFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     idList.add(snapshot.getKey());
                 }
-                //showUsers();
+
                 showGroup();
             }
 
@@ -128,61 +162,4 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-
-
-    private void showUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
-                    for (String id : idList){
-                        if (user.getId().equals(id)){
-                            userList.add(user);
-                        }
-                    }
-                }
-                userAdapter = new UserAdapter(getContext(),userList);
-                recyclerView.setAdapter(userAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-
-//        for (int i=0;i<mPosts.size();i++){
-//            Post post = mPosts.get(i);
-//
-//            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("Follow").child(post.getPostid()).child("following");
-//            for (int j =0;j<tmpUser.size();j++) {
-//                final User user = tmpUser.get(j);
-//                ref1.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        if (dataSnapshot.child(user.getId()).exists()) {
-//                            mUsers.add(user);
-//
-//                        }
-//                        userAdapter = new UserAdapter(getContext(), mUsers);
-//                        recyclerView.setAdapter(userAdapter);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//            }
-//        }
-
-
-
 }

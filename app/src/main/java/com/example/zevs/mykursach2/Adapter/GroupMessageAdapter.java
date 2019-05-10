@@ -10,15 +10,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.zevs.mykursach2.Model.Chat;
 import com.example.zevs.mykursach2.Model.User;
 import com.example.zevs.mykursach2.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapter.ViewHolder> {
     public static  final int MSG_TYPE_LEFT = 0;
@@ -26,14 +34,15 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
     private Context mContext;
     private List<Chat> mChat;
-    private List<User> mUsers;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference mDatabasePost;
+
 
     FirebaseUser fuser;
 
-    public GroupMessageAdapter(Context mContext, List<Chat> mChat, List<User> mUsers) {
+    public GroupMessageAdapter(Context mContext, List<Chat> mChat) {
         this.mContext = mContext;
         this.mChat = mChat;
-        this.mUsers = mUsers;
     }
 
     @NonNull
@@ -51,30 +60,23 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = mChat.get(position);
-        for (int i =0;i<mUsers.size();i++){
-            if (chat.getSender().equals(mUsers.get(i).getId())){
-                Glide.with(mContext).load(mUsers.get(i).getImageUrl()).into(holder.profile_image);
-
-            }
-        }
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         holder.show_message.setText(chat.getMessage());
+        long millisecond = chat.getTimestamp();
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        holder.message_time.setText(df.format("hh:mm", millisecond).toString());
 
+//        if (position == mChat.size()-1){
+//            if (chat.isIsseen()){
+//                holder.txt_seen.setText("Seen");
+//            } else {
+//                holder.txt_seen.setText("Delivered");
+//            }
+//        } else {
+//            holder.txt_seen.setVisibility(View.GONE);
+//        }
 
-
-
-
-
-
-        if (position == mChat.size()-1){
-            if (chat.isIsseen()){
-                holder.txt_seen.setText("Seen");
-            } else {
-                holder.txt_seen.setText("Delivered");
-            }
-        } else {
-            holder.txt_seen.setVisibility(View.GONE);
-        }
+        senderInfo(holder.profile_image,holder.sender_name,chat.getSender());
 
 
     }
@@ -86,8 +88,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
 
     public  class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView show_message;
-        public ImageView profile_image;
+        public TextView show_message,message_time,sender_name;
+        public CircleImageView profile_image;
         public TextView txt_seen;
 
         public ViewHolder(View itemView) {
@@ -96,7 +98,31 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.profile_image);
             txt_seen = itemView.findViewById(R.id.txt_seen);
+            message_time = itemView.findViewById(R.id.message_time);
+            sender_name = itemView.findViewById(R.id.sender_name);
+
         }
+    }
+
+    private void senderInfo(final CircleImageView imageProfile, final TextView name, final String userId)
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//              RequestOptions placeholderOption = new RequestOptions();
+//              placeholderOption.placeholder(drawable.profile_placeholder);
+                User user = dataSnapshot.getValue(User.class);
+                Glide.with(mContext).load(user.getImageUrl()).into(imageProfile);
+                //name.setText(user.getUsername());
+
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

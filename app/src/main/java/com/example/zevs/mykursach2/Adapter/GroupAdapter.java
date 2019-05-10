@@ -14,6 +14,11 @@ import com.bumptech.glide.Glide;
 import com.example.zevs.mykursach2.MessageActivity;
 import com.example.zevs.mykursach2.Model.Post;
 import com.example.zevs.mykursach2.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -21,6 +26,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     private Context mContext;
     private List<Post> mPosts;
+
+    String theLastMessage;
 
     public GroupAdapter(Context mContext, List<Post> mPosts) {
         this.mContext = mContext;
@@ -37,8 +44,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder viewHolder, int i) {
         final Post post = mPosts.get(i);
-        viewHolder.username.setText(post.getPostid());
-        Glide.with(mContext).load(post.getPostimage()).into(viewHolder.profile_image);
+        viewHolder.groupName.setText(post.getName());
+        Glide.with(mContext).load(post.getPostimage()).into(viewHolder.groupImage);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,13 +58,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView username;
-        public ImageView profile_image;
+        public TextView groupName;
+        public ImageView groupImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.userName);
-            profile_image = itemView.findViewById(R.id.imageUser);
+            groupName = itemView.findViewById(R.id.group_name);
+            groupImage = itemView.findViewById(R.id.group_image);
 
 
         }
@@ -67,5 +74,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return mPosts.size();
+    }
+
+    private void lastMessage (String postId){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats").child(postId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

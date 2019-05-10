@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -57,12 +58,11 @@ public class PostActivity extends AppCompatActivity {
 
     DatabaseReference reference1;
     ImageView close, image_added;
-    TextView post,tvMin,tvMax;
-    EditText description,amountVisit;
+    TextView post;
+    EditText description,amountVisit,name;
     Spinner dropdown;
     String itemvalue;
-    Integer [] images = {0,R.drawable.heart,R.drawable.garland,R.drawable.tools,R.drawable.heart};
-    // CrystalRangeSeekbar rangeSeekbar;
+
 
 
 
@@ -78,7 +78,9 @@ public class PostActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
         amountVisit = findViewById(R.id.amountVisitors);
         dropdown = findViewById(R.id.spinner);
+        name = findViewById(R.id.event_name);
         reference1= FirebaseDatabase.getInstance().getReference();
+
 
 
 
@@ -119,8 +121,18 @@ public class PostActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage();
-                createGroup();
+                String str_name = name.getText().toString();
+
+                //Action, if user writing is not all field
+                if (TextUtils.isEmpty(str_name))
+                {
+                    Toast.makeText(PostActivity.this,"Please, entry the name of event",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    uploadImage();
+                }
+
+
             }
         });
 
@@ -156,15 +168,6 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
-    private void createGroup() {
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-//        String idRoom ;
-//        Room room = new Room();
-//        room.setId(idRoom);
-//        reference.child(idRoom).setValue(room);
-//
-
-    }
 
 
     private void uploadImage(){
@@ -193,13 +196,8 @@ public class PostActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         assert downloadUri != null;
                         myUrl = downloadUri.toString().trim();
-                        //String myVisitors = amountVisit.toString().trim();
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("posts");
-
-
-
-
                         String postId = reference.push().getKey();
 
 
@@ -212,23 +210,12 @@ public class PostActivity extends AppCompatActivity {
                         hashMap.put("amountvisitors",amountVisit.getText().toString());
                         hashMap.put("type",itemvalue);
                         hashMap.put("timestamp", ServerValue.TIMESTAMP);
-                    //    hashMap.put("agefrom",tvMin.getText().toString());
-                      //  hashMap.put("ageto",tvMax.getText().toString());
-
-                        //Добавил
+                        hashMap.put("name",name.getText().toString());
                         assert postId != null;
                         reference.child(postId).setValue(hashMap);
 
 
                         progressDialog.dismiss();
-
-                        //HDKJFKJSD KJFKLSDJFKJSDKFJKSDJF DSKJF DSJFK
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Group");
-                        String idRoom = postId;
-                        Room room = new Room();
-                        room.setId(idRoom);
-                        ref.child(idRoom).setValue(room);
-                        //SDJKJFLKDSFJSDLFJKl
 
                         startActivity(new Intent(PostActivity.this,MainActivity.class));
                         finish();

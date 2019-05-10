@@ -81,7 +81,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         long millisecond = post.getTimestamp();
         android.text.format.DateFormat df = new android.text.format.DateFormat();
         viewHolder.blog_time.setText(df.format("dd.MM.yyyy hh:mm", millisecond).toString());
-
+        viewHolder.eventName.setText(post.getName());
 
         if(post.getAmountvisitors().equals(""))
         {
@@ -100,7 +100,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             viewHolder.description.setVisibility(View.VISIBLE);
             viewHolder.description.setText(post.getDescription());
         }
-
 
 
         viewHolder.btn_follow.setVisibility(View.VISIBLE);
@@ -146,7 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView imageProfile,postImage;
-        public TextView username,description,blog_visitors,blog_time,filter;
+        public TextView username,description,blog_visitors,blog_time,filter,eventName;
         public CircularProgressButton btn_follow;
 
         public ViewHolder(@NonNull View itemView) {
@@ -160,7 +159,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             blog_time = itemView.findViewById(id.blog_date);
             filter = itemView.findViewById(id.criteria);
             btn_follow = itemView.findViewById(id.btn_follow);
+            eventName = itemView.findViewById(id.name_event);
         }
+
 
     }
 

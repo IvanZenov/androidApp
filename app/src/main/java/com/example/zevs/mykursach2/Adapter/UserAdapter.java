@@ -61,10 +61,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return mUsers.size();
-    }
+        @Override
+        public int getItemCount() {
+            return mUsers.size();
+        }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView username;
@@ -72,8 +72,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.userName);
-            profile_image = itemView.findViewById(R.id.imageUser);
+            username = itemView.findViewById(R.id.group_name);
+            profile_image = itemView.findViewById(R.id.group_image);
 
 
         }
