@@ -64,7 +64,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
         holder.show_message.setText(chat.getMessage());
         long millisecond = chat.getTimestamp();
         android.text.format.DateFormat df = new android.text.format.DateFormat();
-        holder.message_time.setText(df.format("hh:mm", millisecond).toString());
+        holder.message_time.setText(df.format("hh:mm MM.dd", millisecond).toString());
 
 //        if (position == mChat.size()-1){
 //            if (chat.isIsseen()){
@@ -104,17 +104,16 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<GroupMessageAdapte
         }
     }
 
-    private void senderInfo(final CircleImageView imageProfile, final TextView name, final String userId)
+    private void senderInfo(final CircleImageView imageProfile, final TextView nameOfUser, final String userId)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//              RequestOptions placeholderOption = new RequestOptions();
-//              placeholderOption.placeholder(drawable.profile_placeholder);
                 User user = dataSnapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(imageProfile);
-                //name.setText(user.getUsername());
+
+                nameOfUser.setText(user.getUsername());
 
 
 

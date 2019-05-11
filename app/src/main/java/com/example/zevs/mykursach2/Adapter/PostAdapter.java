@@ -169,8 +169,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
 
 
-
-
     private void publisherInfo(final ImageView imageProfile, final TextView username, String userId)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);

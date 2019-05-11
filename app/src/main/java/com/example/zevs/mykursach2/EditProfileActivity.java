@@ -58,7 +58,7 @@ public class EditProfileActivity extends AppCompatActivity {
         tv_change = findViewById(R.id.tv_change);
         age = findViewById(R.id.age);
         username = findViewById(R.id.username);
-        bio = findViewById(R.id.bio);
+
 
         //Get current user
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,7 +76,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 //Set all information to layout
                 age.setText(user.getAge());
                 username.setText(user.getUsername());
-                bio.setText(user.getBio());
                 Glide.with(getApplicationContext()).load(user.getImageUrl()).into(image_profile);
             }
 
@@ -100,8 +99,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateProfile(age.getText().toString(),
-                        username.getText().toString(),
-                        bio.getText().toString());
+                        username.getText().toString());
             }
         });
 
@@ -127,14 +125,14 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
     }
-    private void updateProfile(String age, String username, String bio){
+    private void updateProfile(String age, String username){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("age", age);
         map.put("username", username);
-        map.put("bio", bio);
+
 
         reference.updateChildren(map);
 
