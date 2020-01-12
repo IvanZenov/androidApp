@@ -49,7 +49,6 @@ public class ProfileFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         imageProfile = view.findViewById(R.id.image_profile);
-        //options = view.findViewById(R.id.options);
         name = view.findViewById(R.id.username);
         posts = view.findViewById(R.id.postsId);
         following = view.findViewById(R.id.following);
@@ -65,15 +64,12 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
-
-
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), EditProfileActivity.class));
             }
         });
-
         userInfo();
         getCurrentPosts();
         getFollowers();

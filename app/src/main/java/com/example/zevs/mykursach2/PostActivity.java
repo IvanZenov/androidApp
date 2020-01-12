@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
@@ -44,6 +45,7 @@ public class PostActivity extends AppCompatActivity {
     String myUrl ="";
     StorageTask uploadTask;
     StorageReference storageReference;
+    private FirebaseUser firebaseUser;
 
 
     DatabaseReference reference1;
@@ -70,6 +72,7 @@ public class PostActivity extends AppCompatActivity {
         dropdown = findViewById(R.id.spinner);
         name = findViewById(R.id.event_name);
         reference1= FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -168,7 +171,7 @@ public class PostActivity extends AppCompatActivity {
         if (imageUri != null)
         {
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-            +"."+ getFileExtension(imageUri));
+                    +"."+ getFileExtension(imageUri));
             uploadTask = fileReference.putFile(imageUri);
 
             uploadTask.continueWithTask(new Continuation() {
@@ -206,6 +209,8 @@ public class PostActivity extends AppCompatActivity {
 
 
                         progressDialog.dismiss();
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                                .child("followers").child(postId).setValue(true);
 
                         startActivity(new Intent(PostActivity.this,MainActivity.class));
                         finish();

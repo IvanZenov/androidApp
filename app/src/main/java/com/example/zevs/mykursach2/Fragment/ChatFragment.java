@@ -60,7 +60,7 @@ public class ChatFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        editText = view.findViewById(R.id.search_posts);
+
 
         idList = new ArrayList<>();
         userList = new ArrayList<>();
@@ -74,28 +74,6 @@ public class ChatFragment extends Fragment {
 
         postList = new ArrayList<>();
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()){
-                    search(s.toString());
-                }
-                else {
-                    search("");
-                }
-
-            }
-        });
 
         getFollowers();
         return view;

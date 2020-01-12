@@ -38,14 +38,11 @@ public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postsList;
-
-
-
     ImageView addPost;
     ImageView filterPost;
     String [] listItems;
     boolean [] checkedItems;
-    ArrayList<Integer> mUserItems = new ArrayList<>();
+    ArrayList<Integer> mUserItems ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,14 +58,14 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         postsList = new ArrayList<>();
+        mUserItems = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(),postsList);
         recyclerView.setAdapter(postAdapter);
-
-
         listItems = getResources().getStringArray(R.array.filter_item);
         checkedItems = new boolean[listItems.length];
-
         filterPost = view.findViewById(R.id.postFilter);
+
+
         filterPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

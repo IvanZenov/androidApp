@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottom_navigation = findViewById(R.id.navigation);
 
+        bottom_navigation = findViewById(R.id.navigation);
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container,
                 new ProfileFragment()).commit();
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                     switch (item.getItemId()){
                         case R.id.navigation_events:
                             selectedfragment = new SearchFragment();

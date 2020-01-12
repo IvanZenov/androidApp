@@ -1,7 +1,6 @@
 package com.example.zevs.mykursach2.Model;
 
 public class Chat {
-
     private String sender;
     private String receiver;
     private String message;

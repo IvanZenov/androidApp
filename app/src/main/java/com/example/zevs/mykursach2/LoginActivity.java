@@ -83,17 +83,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password))
                 {
                     Toast.makeText(LoginActivity.this,getString(R.string.notPassOrEmail),Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
                 }
                 //If All is okey
                 else
                     {
-                        //Registration with Email
+
                         auth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful())
                                 {
-                                    //Create folder in RealTime Database (Firebase)
                                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
                                             .child(auth.getCurrentUser().getUid());
 
