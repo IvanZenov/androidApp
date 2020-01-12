@@ -10,5 +10,17 @@ The application includes features such as:
 *	Chat;
 
 Mockup: 
+  Registation and Login:
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/login.png)
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/registr.png)
+  Profile:
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/profile.png)
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/edit.png)
   Chat:
  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/dialogs.png)
+ ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/message.png)
+  Create and search event:
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/events.png)
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/criteria.png)
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/result_of_creating.png)
+  ![Image alt](https://github.com/IvanZenov/androidApp/raw/master/mockup/result_of_search.png)
