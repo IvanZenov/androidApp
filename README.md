@@ -2,7 +2,7 @@ An application that in a short time will allow the user to find a company for a 
 Like most social networks, this application works correctly with an Internet connection.
 ***
 The application includes features such as:
-* Registration and entry
+* Registration and entry;
 *	View a list of events created by other users;
 *	Participation in the activities of other users;
 *	Create own event;
